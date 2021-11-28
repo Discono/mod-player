@@ -5,38 +5,30 @@ ModPlayer mplayer;
 //  we'll use this to draw a background color
 int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument;
+int songNumber;
 boolean playing;
 String Song = "";
 File dir;
-String songList[];
+ModPlayer songList[];
 boolean selecting = true;
 
 
 void setup() {
+  songNumber = 0;
   playing = false;
-  songList = new String[10];
+  songList = new ModPlayer[1];
   size(200,200);
   frameRate(1);
   background(bgcolor);
   //  Load the supplied test.mod file
   
-  for (int i = 0; i<10; i++){ 
+  for (int i = 0; i<1; i++){ 
   selectInput("Select a file to process:", "fileSelected");
+      songList[i] = new ModPlayer(this, '"' + Song +'"');
   }
+  songList[songNumber].play();
 }
 
-void folderSelected(File selection) {
-
-  if (selection == null) {
-    println("Window was closed or the user hit cancel.");
-  } else {
-    println("User selected " + selection.getAbsolutePath());
-    Song = selection.getPath();
-    dir = selection;
-    
-  
-  }
-}
 
 void fileSelected(File selection) {
 
@@ -45,7 +37,7 @@ void fileSelected(File selection) {
   } else {
     println("User selected " + selection.getAbsolutePath());
     Song = selection.getPath();
-    mplayer = new ModPlayer(this, Song);
+    print(Song);
     
   
   }
@@ -90,28 +82,34 @@ void modRowEvent( int channel, int instrument, int note ) {
 }
 
 void keyPressed() {
-  if (key== 'x') {
-        mplayer.pause(); // pauses when x is pressed (toggles)
+  if (key == 'v') {
+    if (songNumber<songList.length){
+          println("next song: "+ songNumber);
+    songNumber +=1;
+    }
   }
-  if (key== 'z') {
-    playing =!playing;//when z is pressed, switches playing state
+  if (key == 'z') {
+    if (songNumber>1) {
+    songNumber -=1;
+    println("previous song: " + songNumber);
+    }
+  }
+  if (key== 'c') {
     if (playing) {
-        mplayer.play(); // if playing is true, play song
+        songList[0].pause(); // pauses when x is pressed (toggles)
     }
-    else {
-      mplayer.stop();//if playing is false, stop song
+}
+  if (key== 'x') {
+    playing = !playing;//when z is pressed, switches playing state
+    if (playing) {
+        songList[0].play(); // if playing is true, play song
+    }
+    if(!playing) {
+      songList[0].stop();//if playing is false, stop song
 
     }
 
   }
-      if (key == 'n') {
-      playing=false;
-      mplayer.stop();// if n is pressed, stop song and change playing state to false
-      selectInput("Select a file to process:", "fileSelected");
-         mplayer = new ModPlayer(this, Song);
 
-    }
-    if (key == 's') {
-     selecting = false; 
-    }
+
 }
