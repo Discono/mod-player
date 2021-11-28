@@ -7,22 +7,32 @@ ModPlayer mplayer;
 int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument;
 boolean playing;
-
+String Song = "";
 void setup() {
-mplayer.createNewMixer();
+
   
   playing = false;
   size(200,200);
   frameRate(1);
   background(bgcolor);
   //  Load the supplied test.mod file
-  mplayer = new ModPlayer(this, "space_debris.mod");
+
   //  play it rightaway
 
-        mplayer.play(); 
+
+  selectInput("Select a file to process:", "fileSelected");
+
 }
 
-
+void fileSelected(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+    Song = selection.getPath();
+    mplayer = new ModPlayer(this, Song);
+  }
+}
 
 void draw() {
   background(bgcolor);
@@ -64,17 +74,27 @@ void modRowEvent( int channel, int instrument, int note ) {
 
 void keyPressed() {
   if (key== 'x') {
-        mplayer.pause(); 
+        mplayer.pause(); // pauses when x is pressed (toggles)
   }
   if (key== 'z') {
-    playing =!playing;
+    playing =!playing;//when z is pressed, switches playing state
     if (playing) {
-        mplayer.stop(); 
+        mplayer.play(); // if playing is true, play song
     }
     else {
-      mplayer.play();
+      mplayer.stop();//if playing is false, stop song
 
     }
+
   }
+      if (key == 'n') {
+                 playing=false;
+      mplayer.stop();// if n is pressed, stop song and change playing state to false
+      selectInput("Select a file to process:", "fileSelected");
+         mplayer = new ModPlayer(this, Song);
+
+    }
 }
+
+
 
