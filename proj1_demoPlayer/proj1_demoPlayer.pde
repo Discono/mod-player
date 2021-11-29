@@ -1,14 +1,13 @@
 import procmod.*;
 
 //  define a new instance of the ModPlayer
-ModPlayer mplayer;
 //  we'll use this to draw a background color
 int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument;
 int songNumber;
 boolean playing;
-String Song = "";
-File dir;
+String Song ="";
+ModPlayer tester;
 ModPlayer songList[];
 boolean selecting = true;
 
@@ -16,17 +15,19 @@ boolean selecting = true;
 void setup() {
   songNumber = 0;
   playing = false;
-  songList = new ModPlayer[1];
+  songList = new ModPlayer[2];
+  tester = new ModPlayer(this, "aurora.mod");
   size(200,200);
   frameRate(1);
   background(bgcolor);
   //  Load the supplied test.mod file
   
-  for (int i = 0; i<1; i++){ 
+  for (int i = 0; i<2; i++){ 
   selectInput("Select a file to process:", "fileSelected");
-      songList[i] = new ModPlayer(this, '"' + Song +'"');
+      songList[i] = new ModPlayer(this,  Song );
   }
   songList[songNumber].play();
+  tester.play();
 }
 
 
@@ -37,6 +38,8 @@ void fileSelected(File selection) {
   } else {
     println("User selected " + selection.getAbsolutePath());
     Song = selection.getPath();
+
+    //songList[songNumber] = new ModPlayer(this, '"' + Song +'"');
     print(Song);
     
   
@@ -47,7 +50,7 @@ void draw() {
   background(bgcolor);
   fill(255);
   text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
-
+println(songList[0]);
 }
 //  This method is called every time an instrument is being played. 
 //  Note: It is also called when no instrument is being called on a channel
@@ -89,23 +92,25 @@ void keyPressed() {
     }
   }
   if (key == 'z') {
-    if (songNumber>1) {
+    if (songNumber>0) {
     songNumber -=1;
     println("previous song: " + songNumber);
     }
   }
   if (key== 'c') {
     if (playing) {
-        songList[0].pause(); // pauses when x is pressed (toggles)
+      
+        songList[songNumber].pause(); // pauses when x is pressed (toggles)
     }
 }
   if (key== 'x') {
     playing = !playing;//when z is pressed, switches playing state
     if (playing) {
-        songList[0].play(); // if playing is true, play song
+        songList[songNumber].play(); // if playing is true, play song
+        println(songList[songNumber]);
     }
     if(!playing) {
-      songList[0].stop();//if playing is false, stop song
+   //.stop();//if playing is false, stop song
 
     }
 
