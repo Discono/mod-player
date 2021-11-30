@@ -1,14 +1,16 @@
 import procmod.*;
 
+//TRY MAKING THE ARRAY OF SONG NAME STRINGS INSTEAD OF ARRAY OF MODPLAYER OBJECTS
+
 //  define a new instance of the ModPlayer
 //  we'll use this to draw a background color
 int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument;
 int songNumber;
-boolean playing;
+boolean playing; 
 String Song ="";
 ModPlayer tester;
-ModPlayer songList[];
+ModPlayer[] songList;
 boolean selecting = true;
 
 
@@ -16,18 +18,19 @@ void setup() {
   songNumber = 0;
   playing = false;
   songList = new ModPlayer[2];
-  tester = new ModPlayer(this, "aurora.mod");
+  tester = new ModPlayer(this, "h{");
   size(200,200);
   frameRate(1);
   background(bgcolor);
   //  Load the supplied test.mod file
   
   for (int i = 0; i<2; i++){ 
+    //for (ModPlayer mod : songList){ 
   selectInput("Select a file to process:", "fileSelected");
-      songList[i] = new ModPlayer(this,  Song );
+      songList[i] = new ModPlayer(this,Song);
+      //println(songList[i]);
   }
-  songList[songNumber].play();
-  tester.play();
+  songList[i].play();
 }
 
 
@@ -38,15 +41,16 @@ void fileSelected(File selection) {
   } else {
     println("User selected " + selection.getAbsolutePath());
     Song = selection.getPath();
-
+tester = new ModPlayer(this, Song);
     //songList[songNumber] = new ModPlayer(this, '"' + Song +'"');
-    print(Song);
+    //print( Song);
     
   
   }
 }
 
 void draw() {
+
   background(bgcolor);
   fill(255);
   text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
@@ -86,10 +90,18 @@ void modRowEvent( int channel, int instrument, int note ) {
 
 void keyPressed() {
   if (key == 'v') {
-    if (songNumber<songList.length){
+        tester.play();
+    if (songNumber<songList.length-1){
           println("next song: "+ songNumber);
     songNumber +=1;
     }
+
+}
+  if (key == ' ') {
+        
+
+songList[songNumber].play();
+println("play"+songNumber);
   }
   if (key == 'z') {
     if (songNumber>0) {
