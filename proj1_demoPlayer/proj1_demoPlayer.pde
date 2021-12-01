@@ -11,6 +11,7 @@ boolean playing;
 String Song ="";
 ModPlayer tester;
 ModPlayer[] songList;
+ModPlayer songSelected;
 boolean selecting = true;
 
 
