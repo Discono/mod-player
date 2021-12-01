@@ -9,6 +9,7 @@ int globalNote, globalChannel, globalInstrument;
 int songNumber;
 boolean playing; 
 String Song ="";
+String[] SongListing;
 ModPlayer tester;
 ModPlayer[] songList;
 ModPlayer songSelected;
