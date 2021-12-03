@@ -21,18 +21,18 @@ void setup() {
   playing = false;
   songList = new ModPlayer[2];
   tester = new ModPlayer(this, "h{");
+  println(this);
+  SongListing = new String[2];
   size(200,200);
   frameRate(1);
   background(bgcolor);
   //  Load the supplied test.mod file
   
-  for (int i = 0; i<2; i++){ 
+
     //for (ModPlayer mod : songList){ 
   selectInput("Select a file to process:", "fileSelected");
-      songList[i] = new ModPlayer(this,Song);
-      //println(songList[i]);
-  }
-  songList[i].play();
+
+  //tester = new ModPlayer(this,SongListing[songNumber]);
 }
 
 
@@ -42,8 +42,10 @@ void fileSelected(File selection) {
     println("Window was closed or the user hit cancel.");
   } else {
     println("User selected " + selection.getAbsolutePath());
-    Song = selection.getPath();
-tester = new ModPlayer(this, Song);
+    //tester = new ModPlayer(this selection.getName());
+    tester = new ModPlayer(this, selection.getName());
+    tester.play();
+    
     //songList[songNumber] = new ModPlayer(this, '"' + Song +'"');
     //print( Song);
     
@@ -52,11 +54,11 @@ tester = new ModPlayer(this, Song);
 }
 
 void draw() {
-
+//tester.play();
   background(bgcolor);
   fill(255);
   text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
-println(songList[0]);
+//println(songList[0]);
 }
 //  This method is called every time an instrument is being played. 
 //  Note: It is also called when no instrument is being called on a channel
@@ -100,10 +102,13 @@ void keyPressed() {
 
 }
   if (key == ' ') {
-        
-
-songList[songNumber].play();
-println("play"+songNumber);
+    tester.stop();
+    selectInput("Select a file to process:", "fileSelected");
+    
+//songSelected = new ModPlayer(this, SongListing[songNumber]);
+//println(SongListing[songNumber]+ "iiiiiiiii");
+//songSelected.play();
+//println("play"+songNumber);
   }
   if (key == 'z') {
     if (songNumber>0) {
