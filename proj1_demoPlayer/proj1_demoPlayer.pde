@@ -10,7 +10,7 @@ int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
 boolean selecting;
 String CurrentSong;
-ModPlayer tester;
+ModPlayer currentSong;
 
 void setup() {
  selecting = true;
@@ -38,8 +38,8 @@ void fileSelected(File selection) {
   } else {
     println("User selected " + selection.getAbsolutePath());
 
-    tester = new ModPlayer(this, selection.getName());
-    tester.play();
+    currentSong = new ModPlayer(this, selection.getName());
+    currentSong.play();
     selecting = false;
     CurrentSong = selection.getName();
   }
@@ -109,20 +109,20 @@ void modPatternEvent( int pattern, int position) {
 void keyPressed() {
 
   if (key == ' ') { //when space is pressed, 
-    tester.stop();  //stops currently playing song
+    currentSong.stop();  //stops currently playing song
     selectInput("Select a file to process:", "fileSelected");  //loads new song
   }
 
   if (key== 'c') {
 
-        tester.pause(); // pauses when c is pressed
+        currentSong.pause(); // pauses when c is pressed
 }
   if (key== 'x') {
-tester.stop();  //stops when x is pressed
+currentSong.stop();  //stops when x is pressed
     }
         
     if (key== 'z') {
-tester.play();
+currentSong.play();
     }
 
 }
