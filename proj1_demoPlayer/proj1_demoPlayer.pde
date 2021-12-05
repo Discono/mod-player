@@ -8,16 +8,19 @@ import procmod.*;
 
 int bgcolor = 0;
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
-boolean selecting;
+boolean selecting, playing;
 String CurrentSong;
+String Status;
 ModPlayer currentSong;
 
 void setup() {
  selecting = true;
+ playing = false;
     size(400,400);
   frameRate(1);
+  textSize(40);
   background(bgcolor);
-
+  Status = "";
 
 
 
@@ -40,21 +43,24 @@ void fileSelected(File selection) {
 
     currentSong = new ModPlayer(this, selection.getName());
     currentSong.play();
+    Status = "Playing";
     selecting = false;
+    playing = true;
     CurrentSong = selection.getName();
   }
 }
 
 void draw() {
   if (!selecting) {
- 
+   
   background(bgcolor,0,0);
   fill(255);
 
     
-    text(CurrentSong, 100,100);
+    text(CurrentSong, 40,100);
   text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
-  text(globalPattern +":" + globalPosition,40,200);
+  text(globalPattern +":" + globalPosition,40,220);
+  text(Status, 40, 300);
 }
 }
 
@@ -114,15 +120,29 @@ void keyPressed() {
   }
 
   if (key== 'c') {
-
-        currentSong.pause(); // pauses when c is pressed
+if (Status == "Playing") {
+  Status = "Paused";
 }
+else if (Status == "Paused") {
+  Status = "Playing";
+}
+        currentSong.pause(); // pauses when c is pressed
+  }
   if (key== 'x') {
+    
 currentSong.stop();  //stops when x is pressed
+Status = "Stopped";
+playing = false;
+
     }
         
     if (key== 'z') {
+      if(!playing) {
 currentSong.play();
+      
+  Status = "Playing";
+  playing = true;
+      }
     }
 
 }
