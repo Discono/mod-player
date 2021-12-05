@@ -89,6 +89,9 @@ void keyPressed() {
 }
   if (key== 'x') {
 tester.stop();
+    } 
+    if (key== 'z') {
+tester.play();
     }
 
 }
