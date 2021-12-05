@@ -1,28 +1,33 @@
 import procmod.*;
 
-//TRY MAKING THE ARRAY OF SONG NAME STRINGS INSTEAD OF ARRAY OF MODPLAYER OBJECTS
+
+
 
 //  define a new instance of the ModPlayer
 //  we'll use this to draw a background color
-int bgcolor = 0;
-int globalNote, globalChannel, globalInstrument;
 
+int bgcolor = 0;
+int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
+boolean selecting;
+String CurrentSong;
 ModPlayer tester;
 
-
-
 void setup() {
-
-    size(200,200);
+ selecting = true;
+    size(400,400);
   frameRate(1);
   background(bgcolor);
-  
+
+
+
 
 
   selectInput("Select a file to process:", "fileSelected");
-
-
+ 
+  
 }
+
+
 
 
 void fileSelected(File selection) {
@@ -35,19 +40,29 @@ void fileSelected(File selection) {
 
     tester = new ModPlayer(this, selection.getName());
     tester.play();
+    selecting = false;
+    CurrentSong = selection.getName();
   }
 }
 
 void draw() {
-//tester.play();
-  background(bgcolor);
+  if (!selecting) {
+ 
+  background(bgcolor,0,0);
   fill(255);
-  text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
 
+    
+    text(CurrentSong, 100,100);
+  text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
+  text(globalPattern +":" + globalPosition,40,200);
 }
+}
+
 //  This method is called every time an instrument is being played. 
 //  Note: It is also called when no instrument is being called on a channel
 //  the instrument number will be 0 then.
+
+
 void modRowEvent( int channel, int instrument, int note ) {
   globalNote = note;
   globalInstrument = instrument;
@@ -57,41 +72,58 @@ void modRowEvent( int channel, int instrument, int note ) {
   if (channel == 0)  {
     print(channel +":"+ instrument +":"+ note+ "\t");
     //  Whatever instrument is being played just set a background color from the note played.
-    bgcolor = note * 3;
+
   }
     if (channel == 1)  {
     print(channel +":"+ instrument +":"+ note+ "\t");
     //  Whatever instrument is being played just set a background color from the note played.
-    bgcolor = note * 3;
+
   }
     if (channel == 2)  {
     print(channel +":"+ instrument +":"+ note+ "\t");
     //  Whatever instrument is being played just set a background color from the note played.
-    bgcolor = note * 3;
+
   }
     if (channel == 3)  {
     println(channel +":"+ instrument +":"+ note+ "\t");
     //  Whatever instrument is being played just set a background color from the note played.
-    bgcolor = note * 3;
+
   }
+
   
 }
+//modPatternEvent is called whenever a new pattern is played.
+void modPatternEvent( int pattern, int position) {
+      //println(pattern + ", " + position);
+      globalPattern = pattern;
+      globalPosition = position;
+      bgcolor = pattern+position * 20;
+      if (bgcolor >255) {
+        bgcolor = 255;
+      }
+   println("Current Pattern: " + pattern + "\t" + "Current Position: " + position); 
+
+}
+  
 
 void keyPressed() {
 
-  if (key == ' ') {
-    tester.stop();
-    selectInput("Select a file to process:", "fileSelected");
+  if (key == ' ') { //when space is pressed, 
+    tester.stop();  //stops currently playing song
+    selectInput("Select a file to process:", "fileSelected");  //loads new song
   }
 
   if (key== 'c') {
-        tester.pause(); // pauses when x is pressed (toggles)
+
+        tester.pause(); // pauses when c is pressed
 }
   if (key== 'x') {
-tester.stop();
-    } 
+tester.stop();  //stops when x is pressed
+    }
+        
     if (key== 'z') {
 tester.play();
     }
 
 }
+
