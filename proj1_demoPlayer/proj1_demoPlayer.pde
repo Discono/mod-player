@@ -7,6 +7,7 @@ import procmod.*;
 //  we'll use this to draw a background color
 
 int bgcolor = 0;
+int channel0BG, channel1BG, channel2BG, channel3BG;
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
 boolean selecting, playing;
 String CurrentSong;
@@ -17,11 +18,14 @@ void setup() {
   selecting = true;
   playing = false;
   size(400, 400);
-  frameRate(1);
+  frameRate(10);
   textSize(40);
   background(bgcolor);
   Status = "";
-
+  channel0BG = 0;
+  channel1BG = 0;
+  channel2BG = 0;
+  channel3BG = 0;
 
 
 
@@ -52,6 +56,15 @@ void draw() {
   if (!selecting) {
 
     background(bgcolor, 0, 0);
+    fill(channel0BG);
+    rect(width/8*1,0,30,height);
+    fill(0,channel1BG,0);
+    rect(width/8*3,0,30,height);
+    fill(0,0,channel3BG);
+    rect(width/8*5,0,30,height);
+    fill(channel3BG,0,0);
+    rect(width/8*7,0, 30,height);
+    
     fill(255);
 
 
@@ -75,21 +88,44 @@ void modRowEvent( int channel, int instrument, int note ) {
 
   if (channel == 0) {
     print(channel +":"+ instrument +":"+ note+ "\t");
-
+    channel0BG = bgChange(channel, note, channel0BG);
   }
   if (channel == 1) {
     print(channel +":"+ instrument +":"+ note+ "\t");
-
+    channel1BG = bgChange(channel, note, channel1BG);
   }
   if (channel == 2) {
     print(channel +":"+ instrument +":"+ note+ "\t");
-
+    channel2BG = bgChange(channel, note, channel2BG);
   }
   if (channel == 3) {
-    println(channel +":"+ instrument +":"+ note+ "\t");
-
+    print(channel +":"+ instrument +":"+ note+ "\t");
+    channel3BG = bgChange(channel, note, channel3BG);
   }
 }
+
+int bgChange(int currentChannel, int currentNote, int currentBG) {
+  int newBG = currentBG;
+    if (currentNote == 0) {
+    newBG = currentBG-20;
+    if (newBG <0) {
+     newBG = 0; 
+    }
+  }
+  else { 
+    newBG = currentBG + 30;
+
+    if (newBG > 255) {
+     newBG = 255; 
+    }
+  }
+      println("changed: "+currentChannel +"to: " + newBG);
+      if (currentChannel ==3) {
+        println("\n");
+      }
+  return newBG;
+}
+
 //modPatternEvent is called whenever a new pattern is played.
 void modPatternEvent( int pattern, int position) {
 
