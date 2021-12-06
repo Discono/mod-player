@@ -56,17 +56,17 @@ void draw() {
   if (!selecting) {
 
     background(bgcolor, 0, 0);
-    fill(channel0BG);
+    fill(channel0BG,0,0);
     rect(width/8*1,0,30,height);
     fill(0,channel1BG,0);
     rect(width/8*3,0,30,height);
     fill(0,0,channel3BG);
     rect(width/8*5,0,30,height);
-    fill(channel3BG,0,0);
+    fill(channel3BG);
     rect(width/8*7,0, 30,height);
     
     fill(255);
-
+    
 
     text(CurrentSong, 40, 100);
     text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
@@ -113,7 +113,7 @@ int bgChange(int currentChannel, int currentNote, int currentBG) {
     }
   }
   else { 
-    newBG = currentBG + 30;
+    newBG = currentBG + 50;
 
     if (newBG > 255) {
      newBG = 255; 
@@ -135,7 +135,7 @@ void modPatternEvent( int pattern, int position) {
   if (bgcolor >255) {
     bgcolor = 255;
   }
-  println("Current Pattern: " + pattern + "\t" + "Current Position: " + position);
+  println("Current Pattern: " + pattern + "\t" + "Current Position: " + position + "\n");
 }
 
 
