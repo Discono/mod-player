@@ -5,8 +5,8 @@ import procmod.*;
 
 //  define a new instance of the ModPlayer
 //  we'll use this to draw a background color
-int bgcolorNum = 0;
-color bgcolor = #000000;
+
+int bgcolor = 0;
 int channel0BG, channel1BG, channel2BG, channel3BG;
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
 boolean selecting, playing;
@@ -54,22 +54,23 @@ void fileSelected(File selection) {
 
 void draw() {
   if (!selecting) {
-
-    background(bgcolor);
+    fill(0);
+    rect(0,0,width,255);
+    background(bgcolor, 0, 0);
     fill(channel0BG,0,0);
-    rect(width/8*1,0,30,channel0BG);
+    rect(0,0,width/4,channel0BG);
     fill(0,channel1BG,0);
-    rect(width/8*3,0,30,channel1BG);
-    fill(0,0,channel2BG);
-    rect(width/8*5,0,30,channel2BG);
+    rect(100,0,width/4,channel1BG);
+    fill(0,0,channel3BG);
+    rect(200,0,width/4,channel2BG);
     fill(channel3BG);
-    rect(width/8*7,0, 30,channel3BG);
+    rect(300,0,width/4,channel3BG);
     
     fill(255);
-    
+    rect(0,height - 30, globalPosition*10, 30);
 
     text(CurrentSong, 40, 100);
-    text(globalChannel +":"+ globalInstrument +":"+ globalNote, 40, 180);
+    text(globalInstrument +":"+ globalNote, 40, 180);
     text(globalPattern +":" + globalPosition, 40, 220);
     text(Status, 40, 300);
   }
@@ -131,15 +132,9 @@ void modPatternEvent( int pattern, int position) {
 
   globalPattern = pattern;
   globalPosition = position;
-  bgcolorNum = pattern+position;
-  if (bgcolorNum % 3 == 0) {
-    bgcolor = #FF0000;
-  }
-  else if(bgcolorNum % 3 ==1) {
-    bgcolor = #00FF00;
-  }
-    else if(bgcolorNum % 3 ==2) {
-    bgcolor = #0000FF;
+  bgcolor = pattern+position * 20;
+  if (bgcolor >255) {
+    bgcolor = 255;
   }
   println("Current Pattern: " + pattern + "\t" + "Current Position: " + position + "\n");
 }
