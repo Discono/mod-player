@@ -1,21 +1,15 @@
-import procmod.*;
+import procmod.*; //imports the library
 
 
-
-
-//  define a new instance of the ModPlayer
-//  we'll use this to draw a background color
-
-int bgcolor = 0;
+int bgcolor = 0; //  we'll use this to draw a background color
 int channel0BG, channel1BG, channel2BG, channel3BG;
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
 boolean selecting, playing;
-String CurrentSong;
 String Status;
-ModPlayer currentSong;
+ModPlayer currentSong; //  define a new instance of the ModPlayer
 
 void setup() {
-  selecting = true;
+  selecting = true; 
   playing = false;
   size(400, 400);
   frameRate(60);
@@ -29,7 +23,7 @@ void setup() {
 
 
 
-  selectInput("Select a file to process:", "fileSelected");
+  selectInput("Select a file to process:", "fileSelected"); //opens the file selection window, runs the given function.
 }
 
 
@@ -43,12 +37,12 @@ void fileSelected(File selection) {
   else {
     println("User selected " + selection.getAbsolutePath());
 
-    currentSong = new ModPlayer(this, selection.getName());
-    currentSong.play();
+    currentSong = new ModPlayer(this, selection.getName()); // initializes the ModPlayer object with the selected song
+    currentSong.play();//plays the song
     Status = "Playing";
     selecting = false;
     playing = true;
-    CurrentSong = selection.getName();
+
   }
 }
 
@@ -79,7 +73,6 @@ void draw() {
 //  This method is called every time an instrument is being played. 
 //  Note: It is also called when no instrument is being called on a channel
 //  the instrument number will be 0 then.
-
 
 void modRowEvent( int channel, int instrument, int note ) {
   globalNote = note;
@@ -128,11 +121,12 @@ int bgChange(int currentChannel, int currentNote, int currentBG) {
 }
 
 //modPatternEvent is called whenever a new pattern is played.
+
 void modPatternEvent( int pattern, int position) {
 
   globalPattern = pattern;
   globalPosition = position;
-  bgcolor = pattern+position * 20;
+  bgcolor = pattern+position * 20; //changes background color based on the current pattern 
   if (bgcolor >255) {
     bgcolor = 255;
   }
@@ -144,6 +138,7 @@ void keyPressed() {
 
   if (key == ' ') { //when space is pressed, 
     currentSong.stop();  //stops currently playing song
+
     selectInput("Select a file to process:", "fileSelected");  //loads new song
   }
 
@@ -165,7 +160,7 @@ void keyPressed() {
 
   if (key== 'z') {
     if (!playing) {
-      currentSong.play();
+      currentSong.play();//plays the song, if it is not already playing
       Status = "Playing";
       playing = true;
     }
