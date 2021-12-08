@@ -66,7 +66,7 @@ void draw() {
 
     text(CurrentSong, 40, 100);
     text(globalInstrument +":"+ globalNote, 40, 180);
-    text(globalPattern +":" + globalPosition, 40, 220);
+    text(globalPattern +":" + globalPosition, 40, 340);
     text(Status, 40, 300);
   }
 }
