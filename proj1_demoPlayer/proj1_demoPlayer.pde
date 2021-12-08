@@ -65,8 +65,8 @@ void draw() {
     rect(0,height - 30, globalPosition*10, 30); //pattern visual 
 
     text(CurrentSong, 40, 100);
-    text(globalInstrument +":"+ globalNote, 40, 180);
-    text(globalPattern +":" + globalPosition, 40, 340);
+    //text(globalInstrument +":"+ globalNote, 40, 180);
+    //text(globalPattern +":" + globalPosition, 40, 340);
     text(Status, 40, 300);
   }
 }
@@ -82,19 +82,19 @@ void modRowEvent( int channel, int instrument, int note ) {
 
 
   if (channel == 0) {
-    print(channel +":"+ instrument +":"+ note+ "\t");
+    print( instrument +":"+ note+ "\t");
     channel0BG = bgChange(channel, note, channel0BG);
   }
   if (channel == 1) {
-    print(channel +":"+ instrument +":"+ note+ "\t");
+    print( instrument +":"+ note+ "\t");
     channel1BG = bgChange(channel, note, channel1BG);
   }
   if (channel == 2) {
-    print(channel +":"+ instrument +":"+ note+ "\t");
+    print( instrument +":"+ note+ "\t");
     channel2BG = bgChange(channel, note, channel2BG);
   }
   if (channel == 3) {
-    print(channel +":"+ instrument +":"+ note+ "\t");
+    println( instrument +":"+ note+ "\t");
     channel3BG = bgChange(channel, note, channel3BG);
   }
 }
@@ -114,10 +114,7 @@ int bgChange(int currentChannel, int currentNote, int currentBG) {
      newBG = 255; 
     }
   }
-      println("changed: "+currentChannel +"to: " + newBG);
-      if (currentChannel ==3) {
-        println("\n");
-      }
+
   return newBG;
 }
 
