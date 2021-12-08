@@ -2,9 +2,10 @@ import procmod.*; //imports the library
 
 
 int bgcolor = 0; //  we'll use this to draw a background color
-int channel0BG, channel1BG, channel2BG, channel3BG;
+int channel0BG, channel1BG, channel2BG, channel3BG; //variables for the individual channel colors
 int globalNote, globalChannel, globalInstrument, globalPattern, globalPosition;
 boolean selecting, playing;
+String CurrentSong;
 String Status;
 ModPlayer currentSong; //  define a new instance of the ModPlayer
 
@@ -16,7 +17,7 @@ void setup() {
   textSize(40);
   background(bgcolor);
   Status = "";
-  channel0BG = 0;
+  channel0BG = 0; 
   channel1BG = 0;
   channel2BG = 0;
   channel3BG = 0;
@@ -42,7 +43,7 @@ void fileSelected(File selection) {
     Status = "Playing";
     selecting = false;
     playing = true;
-
+    CurrentSong = selection.getName();
   }
 }
 
@@ -52,16 +53,16 @@ void draw() {
     rect(0,0,width,255);
     background(bgcolor, 0, 0);
     fill(channel0BG,0,0);
-    rect(0,0,width/4,channel0BG);
+    rect(0,0,width/4,channel0BG); //channel 0 visual 
     fill(0,channel1BG,0);
-    rect(100,0,width/4,channel1BG);
+    rect(100,0,width/4,channel1BG);//channel 1 visual 
     fill(0,0,channel3BG);
-    rect(200,0,width/4,channel2BG);
+    rect(200,0,width/4,channel2BG);//channel 2 visual 
     fill(channel3BG);
-    rect(300,0,width/4,channel3BG);
+    rect(300,0,width/4,channel3BG);//channel 3 visual 
     
     fill(255);
-    rect(0,height - 30, globalPosition*10, 30);
+    rect(0,height - 30, globalPosition*10, 30); //pattern visual 
 
     text(CurrentSong, 40, 100);
     text(globalInstrument +":"+ globalNote, 40, 180);
